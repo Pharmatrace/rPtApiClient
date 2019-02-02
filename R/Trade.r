@@ -26,35 +26,39 @@ Trade <- R6::R6Class(
     `transaction_channel` = NULL,
     initialize = function(`timestamp`, `tx_uid`, `terms_id`, `transaction_channel`){
       if (!missing(`timestamp`)) {
-        stopifnot(is.numeric(`timestamp`), length(`timestamp`) == 1)
+                stopifnot(is.numeric(`timestamp`), length(`timestamp`) == 1)
         self$`timestamp` <- `timestamp`
       }
       if (!missing(`tx_uid`)) {
-        stopifnot(is.character(`tx_uid`), length(`tx_uid`) == 1)
+                stopifnot(is.character(`tx_uid`), length(`tx_uid`) == 1)
         self$`tx_uid` <- `tx_uid`
       }
       if (!missing(`terms_id`)) {
-        stopifnot(is.character(`terms_id`), length(`terms_id`) == 1)
+                stopifnot(is.character(`terms_id`), length(`terms_id`) == 1)
         self$`terms_id` <- `terms_id`
       }
       if (!missing(`transaction_channel`)) {
-        stopifnot(is.character(`transaction_channel`), length(`transaction_channel`) == 1)
+                stopifnot(is.character(`transaction_channel`), length(`transaction_channel`) == 1)
         self$`transaction_channel` <- `transaction_channel`
       }
     },
     toJSON = function() {
       TradeObject <- list()
       if (!is.null(self$`timestamp`)) {
-        TradeObject[['timestamp']] <- self$`timestamp`
+        TradeObject[['timestamp']] <-
+                self$`timestamp`
       }
       if (!is.null(self$`tx_uid`)) {
-        TradeObject[['tx_uid']] <- self$`tx_uid`
+        TradeObject[['tx_uid']] <-
+                self$`tx_uid`
       }
       if (!is.null(self$`terms_id`)) {
-        TradeObject[['terms_id']] <- self$`terms_id`
+        TradeObject[['terms_id']] <-
+                self$`terms_id`
       }
       if (!is.null(self$`transaction_channel`)) {
-        TradeObject[['transaction_channel']] <- self$`transaction_channel`
+        TradeObject[['transaction_channel']] <-
+                self$`transaction_channel`
       }
 
       TradeObject
@@ -62,38 +66,55 @@ Trade <- R6::R6Class(
     fromJSON = function(TradeJson) {
       TradeObject <- jsonlite::fromJSON(TradeJson)
       if (!is.null(TradeObject$`timestamp`)) {
-        self$`timestamp` <- TradeObject$`timestamp`
+                self$`timestamp` <- TradeObject$`timestamp`
       }
       if (!is.null(TradeObject$`tx_uid`)) {
-        self$`tx_uid` <- TradeObject$`tx_uid`
+                self$`tx_uid` <- TradeObject$`tx_uid`
       }
       if (!is.null(TradeObject$`terms_id`)) {
-        self$`terms_id` <- TradeObject$`terms_id`
+                self$`terms_id` <- TradeObject$`terms_id`
       }
       if (!is.null(TradeObject$`transaction_channel`)) {
-        self$`transaction_channel` <- TradeObject$`transaction_channel`
+                self$`transaction_channel` <- TradeObject$`transaction_channel`
       }
     },
     toJSONString = function() {
-       sprintf(
+       outstring <- sprintf(
         '{
-           "timestamp": %d,
-           "tx_uid": %s,
-           "terms_id": %s,
-           "transaction_channel": %s
+           "timestamp":
+                      %d
+                      
+                  
+              ,
+           "tx_uid":
+                      
+                      "%s"
+                  
+              ,
+           "terms_id":
+                      
+                      "%s"
+                  
+              ,
+           "transaction_channel":
+                      
+                      "%s"
+                  
+              
         }',
-        self$`timestamp`,
-        self$`tx_uid`,
-        self$`terms_id`,
-        self$`transaction_channel`
+                self$`timestamp`,
+                self$`tx_uid`,
+                self$`terms_id`,
+                self$`transaction_channel`
       )
+      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(TradeJson) {
       TradeObject <- jsonlite::fromJSON(TradeJson)
-      self$`timestamp` <- TradeObject$`timestamp`
-      self$`tx_uid` <- TradeObject$`tx_uid`
-      self$`terms_id` <- TradeObject$`terms_id`
-      self$`transaction_channel` <- TradeObject$`transaction_channel`
+              self$`timestamp` <- TradeObject$`timestamp`
+              self$`tx_uid` <- TradeObject$`tx_uid`
+              self$`terms_id` <- TradeObject$`terms_id`
+              self$`transaction_channel` <- TradeObject$`transaction_channel`
     }
   )
 )

@@ -30,49 +30,55 @@ Pharmaceutical <- R6::R6Class(
     `image` = NULL,
     initialize = function(`pharmaceutical_id`, `gtin`, `trade_name`, `ean_code`, `manufacturer_id`, `image`){
       if (!missing(`pharmaceutical_id`)) {
-        stopifnot(is.character(`pharmaceutical_id`), length(`pharmaceutical_id`) == 1)
+                stopifnot(is.character(`pharmaceutical_id`), length(`pharmaceutical_id`) == 1)
         self$`pharmaceutical_id` <- `pharmaceutical_id`
       }
       if (!missing(`gtin`)) {
-        stopifnot(is.character(`gtin`), length(`gtin`) == 1)
+                stopifnot(is.character(`gtin`), length(`gtin`) == 1)
         self$`gtin` <- `gtin`
       }
       if (!missing(`trade_name`)) {
-        stopifnot(is.character(`trade_name`), length(`trade_name`) == 1)
+                stopifnot(is.character(`trade_name`), length(`trade_name`) == 1)
         self$`trade_name` <- `trade_name`
       }
       if (!missing(`ean_code`)) {
-        stopifnot(is.character(`ean_code`), length(`ean_code`) == 1)
+                stopifnot(is.character(`ean_code`), length(`ean_code`) == 1)
         self$`ean_code` <- `ean_code`
       }
       if (!missing(`manufacturer_id`)) {
-        stopifnot(is.character(`manufacturer_id`), length(`manufacturer_id`) == 1)
+                stopifnot(is.character(`manufacturer_id`), length(`manufacturer_id`) == 1)
         self$`manufacturer_id` <- `manufacturer_id`
       }
       if (!missing(`image`)) {
-        stopifnot(is.character(`image`), length(`image`) == 1)
+                stopifnot(is.character(`image`), length(`image`) == 1)
         self$`image` <- `image`
       }
     },
     toJSON = function() {
       PharmaceuticalObject <- list()
       if (!is.null(self$`pharmaceutical_id`)) {
-        PharmaceuticalObject[['pharmaceutical_id']] <- self$`pharmaceutical_id`
+        PharmaceuticalObject[['pharmaceutical_id']] <-
+                self$`pharmaceutical_id`
       }
       if (!is.null(self$`gtin`)) {
-        PharmaceuticalObject[['gtin']] <- self$`gtin`
+        PharmaceuticalObject[['gtin']] <-
+                self$`gtin`
       }
       if (!is.null(self$`trade_name`)) {
-        PharmaceuticalObject[['trade_name']] <- self$`trade_name`
+        PharmaceuticalObject[['trade_name']] <-
+                self$`trade_name`
       }
       if (!is.null(self$`ean_code`)) {
-        PharmaceuticalObject[['ean_code']] <- self$`ean_code`
+        PharmaceuticalObject[['ean_code']] <-
+                self$`ean_code`
       }
       if (!is.null(self$`manufacturer_id`)) {
-        PharmaceuticalObject[['manufacturer_id']] <- self$`manufacturer_id`
+        PharmaceuticalObject[['manufacturer_id']] <-
+                self$`manufacturer_id`
       }
       if (!is.null(self$`image`)) {
-        PharmaceuticalObject[['image']] <- self$`image`
+        PharmaceuticalObject[['image']] <-
+                self$`image`
       }
 
       PharmaceuticalObject
@@ -80,50 +86,75 @@ Pharmaceutical <- R6::R6Class(
     fromJSON = function(PharmaceuticalJson) {
       PharmaceuticalObject <- jsonlite::fromJSON(PharmaceuticalJson)
       if (!is.null(PharmaceuticalObject$`pharmaceutical_id`)) {
-        self$`pharmaceutical_id` <- PharmaceuticalObject$`pharmaceutical_id`
+                self$`pharmaceutical_id` <- PharmaceuticalObject$`pharmaceutical_id`
       }
       if (!is.null(PharmaceuticalObject$`gtin`)) {
-        self$`gtin` <- PharmaceuticalObject$`gtin`
+                self$`gtin` <- PharmaceuticalObject$`gtin`
       }
       if (!is.null(PharmaceuticalObject$`trade_name`)) {
-        self$`trade_name` <- PharmaceuticalObject$`trade_name`
+                self$`trade_name` <- PharmaceuticalObject$`trade_name`
       }
       if (!is.null(PharmaceuticalObject$`ean_code`)) {
-        self$`ean_code` <- PharmaceuticalObject$`ean_code`
+                self$`ean_code` <- PharmaceuticalObject$`ean_code`
       }
       if (!is.null(PharmaceuticalObject$`manufacturer_id`)) {
-        self$`manufacturer_id` <- PharmaceuticalObject$`manufacturer_id`
+                self$`manufacturer_id` <- PharmaceuticalObject$`manufacturer_id`
       }
       if (!is.null(PharmaceuticalObject$`image`)) {
-        self$`image` <- PharmaceuticalObject$`image`
+                self$`image` <- PharmaceuticalObject$`image`
       }
     },
     toJSONString = function() {
-       sprintf(
+       outstring <- sprintf(
         '{
-           "pharmaceutical_id": %s,
-           "gtin": %s,
-           "trade_name": %s,
-           "ean_code": %s,
-           "manufacturer_id": %s,
-           "image": %s
+           "pharmaceutical_id":
+                      
+                      "%s"
+                  
+              ,
+           "gtin":
+                      
+                      "%s"
+                  
+              ,
+           "trade_name":
+                      
+                      "%s"
+                  
+              ,
+           "ean_code":
+                      
+                      "%s"
+                  
+              ,
+           "manufacturer_id":
+                      
+                      "%s"
+                  
+              ,
+           "image":
+                      
+                      "%s"
+                  
+              
         }',
-        self$`pharmaceutical_id`,
-        self$`gtin`,
-        self$`trade_name`,
-        self$`ean_code`,
-        self$`manufacturer_id`,
-        self$`image`
+                self$`pharmaceutical_id`,
+                self$`gtin`,
+                self$`trade_name`,
+                self$`ean_code`,
+                self$`manufacturer_id`,
+                self$`image`
       )
+      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(PharmaceuticalJson) {
       PharmaceuticalObject <- jsonlite::fromJSON(PharmaceuticalJson)
-      self$`pharmaceutical_id` <- PharmaceuticalObject$`pharmaceutical_id`
-      self$`gtin` <- PharmaceuticalObject$`gtin`
-      self$`trade_name` <- PharmaceuticalObject$`trade_name`
-      self$`ean_code` <- PharmaceuticalObject$`ean_code`
-      self$`manufacturer_id` <- PharmaceuticalObject$`manufacturer_id`
-      self$`image` <- PharmaceuticalObject$`image`
+              self$`pharmaceutical_id` <- PharmaceuticalObject$`pharmaceutical_id`
+              self$`gtin` <- PharmaceuticalObject$`gtin`
+              self$`trade_name` <- PharmaceuticalObject$`trade_name`
+              self$`ean_code` <- PharmaceuticalObject$`ean_code`
+              self$`manufacturer_id` <- PharmaceuticalObject$`manufacturer_id`
+              self$`image` <- PharmaceuticalObject$`image`
     }
   )
 )

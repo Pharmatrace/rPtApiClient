@@ -20,15 +20,16 @@ PharmaceuticalList <- R6::R6Class(
     `products` = NULL,
     initialize = function(`products`){
       if (!missing(`products`)) {
-        stopifnot(is.list(`products`), length(`products`) != 0)
-        lapply(`products`, function(x) stopifnot(R6::is.R6(x)))
+                stopifnot(is.vector(`products`), length(`products`) != 0)
+                sapply(`products`, function(x) stopifnot(R6::is.R6(x)))
         self$`products` <- `products`
       }
     },
     toJSON = function() {
       PharmaceuticalListObject <- list()
       if (!is.null(self$`products`)) {
-        PharmaceuticalListObject[['products']] <- lapply(self$`products`, function(x) x$toJSON())
+        PharmaceuticalListObject[['products']] <-
+                sapply(self$`products`, function(x) x$toJSON())
       }
 
       PharmaceuticalListObject
@@ -36,24 +37,27 @@ PharmaceuticalList <- R6::R6Class(
     fromJSON = function(PharmaceuticalListJson) {
       PharmaceuticalListObject <- jsonlite::fromJSON(PharmaceuticalListJson)
       if (!is.null(PharmaceuticalListObject$`products`)) {
-        self$`products` <- lapply(PharmaceuticalListObject$`products`, function(x) {
-          productsObject <- Pharmaceutical$new()
-          productsObject$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
-          productsObject
-        })
+                self$`products` <- sapply(PharmaceuticalListObject$`products`, function(x) {
+                  productsObject <- Pharmaceutical$new()
+                  productsObject$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
+                  productsObject
+            })
       }
     },
     toJSONString = function() {
-       sprintf(
+       outstring <- sprintf(
         '{
-           "products": [%s]
+           "products":
+                  ["%s"]
+              
         }',
-        lapply(self$`products`, function(x) paste(x$toJSON(), sep=","))
+                paste0(sapply(self$`products`, function(x) x$toJSON()), collapse='","')
       )
+      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(PharmaceuticalListJson) {
       PharmaceuticalListObject <- jsonlite::fromJSON(PharmaceuticalListJson)
-      self$`products` <- lapply(PharmaceuticalListObject$`products`, function(x) Pharmaceutical$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
+              self$`products` <- sapply(PharmaceuticalListObject$`products`, function(x) Pharmaceutical$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
     }
   )
 )

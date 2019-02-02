@@ -28,42 +28,47 @@ Location <- R6::R6Class(
     `location_type` = NULL,
     initialize = function(`timestamp`, `uuid`, `longitude`, `latitude`, `location_type`){
       if (!missing(`timestamp`)) {
-        stopifnot(is.numeric(`timestamp`), length(`timestamp`) == 1)
+                stopifnot(is.numeric(`timestamp`), length(`timestamp`) == 1)
         self$`timestamp` <- `timestamp`
       }
       if (!missing(`uuid`)) {
-        stopifnot(is.character(`uuid`), length(`uuid`) == 1)
+                stopifnot(is.character(`uuid`), length(`uuid`) == 1)
         self$`uuid` <- `uuid`
       }
       if (!missing(`longitude`)) {
-        stopifnot(is.numeric(`longitude`), length(`longitude`) == 1)
+                stopifnot(is.numeric(`longitude`), length(`longitude`) == 1)
         self$`longitude` <- `longitude`
       }
       if (!missing(`latitude`)) {
-        stopifnot(is.numeric(`latitude`), length(`latitude`) == 1)
+                stopifnot(is.numeric(`latitude`), length(`latitude`) == 1)
         self$`latitude` <- `latitude`
       }
       if (!missing(`location_type`)) {
-        stopifnot(is.character(`location_type`), length(`location_type`) == 1)
+                stopifnot(is.character(`location_type`), length(`location_type`) == 1)
         self$`location_type` <- `location_type`
       }
     },
     toJSON = function() {
       LocationObject <- list()
       if (!is.null(self$`timestamp`)) {
-        LocationObject[['timestamp']] <- self$`timestamp`
+        LocationObject[['timestamp']] <-
+                self$`timestamp`
       }
       if (!is.null(self$`uuid`)) {
-        LocationObject[['uuid']] <- self$`uuid`
+        LocationObject[['uuid']] <-
+                self$`uuid`
       }
       if (!is.null(self$`longitude`)) {
-        LocationObject[['longitude']] <- self$`longitude`
+        LocationObject[['longitude']] <-
+                self$`longitude`
       }
       if (!is.null(self$`latitude`)) {
-        LocationObject[['latitude']] <- self$`latitude`
+        LocationObject[['latitude']] <-
+                self$`latitude`
       }
       if (!is.null(self$`location_type`)) {
-        LocationObject[['location_type']] <- self$`location_type`
+        LocationObject[['location_type']] <-
+                self$`location_type`
       }
 
       LocationObject
@@ -71,44 +76,65 @@ Location <- R6::R6Class(
     fromJSON = function(LocationJson) {
       LocationObject <- jsonlite::fromJSON(LocationJson)
       if (!is.null(LocationObject$`timestamp`)) {
-        self$`timestamp` <- LocationObject$`timestamp`
+                self$`timestamp` <- LocationObject$`timestamp`
       }
       if (!is.null(LocationObject$`uuid`)) {
-        self$`uuid` <- LocationObject$`uuid`
+                self$`uuid` <- LocationObject$`uuid`
       }
       if (!is.null(LocationObject$`longitude`)) {
-        self$`longitude` <- LocationObject$`longitude`
+                self$`longitude` <- LocationObject$`longitude`
       }
       if (!is.null(LocationObject$`latitude`)) {
-        self$`latitude` <- LocationObject$`latitude`
+                self$`latitude` <- LocationObject$`latitude`
       }
       if (!is.null(LocationObject$`location_type`)) {
-        self$`location_type` <- LocationObject$`location_type`
+                self$`location_type` <- LocationObject$`location_type`
       }
     },
     toJSONString = function() {
-       sprintf(
+       outstring <- sprintf(
         '{
-           "timestamp": %d,
-           "uuid": %s,
-           "longitude": %d,
-           "latitude": %d,
-           "location_type": %s
+           "timestamp":
+                      %d
+                      
+                  
+              ,
+           "uuid":
+                      
+                      "%s"
+                  
+              ,
+           "longitude":
+                      %d
+                      
+                  
+              ,
+           "latitude":
+                      %d
+                      
+                  
+              ,
+           "location_type":
+                      
+                      "%s"
+                  
+              
         }',
-        self$`timestamp`,
-        self$`uuid`,
-        self$`longitude`,
-        self$`latitude`,
-        self$`location_type`
+                self$`timestamp`,
+                self$`uuid`,
+                self$`longitude`,
+                self$`latitude`,
+                self$`location_type`
       )
+      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(LocationJson) {
       LocationObject <- jsonlite::fromJSON(LocationJson)
-      self$`timestamp` <- LocationObject$`timestamp`
-      self$`uuid` <- LocationObject$`uuid`
-      self$`longitude` <- LocationObject$`longitude`
-      self$`latitude` <- LocationObject$`latitude`
-      self$`location_type` <- LocationObject$`location_type`
+              self$`timestamp` <- LocationObject$`timestamp`
+              self$`uuid` <- LocationObject$`uuid`
+              self$`longitude` <- LocationObject$`longitude`
+              self$`latitude` <- LocationObject$`latitude`
+              self$`location_type` <- LocationObject$`location_type`
     }
   )
 )

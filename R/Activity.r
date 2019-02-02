@@ -20,14 +20,15 @@ Activity <- R6::R6Class(
     `uuid` = NULL,
     initialize = function(`uuid`){
       if (!missing(`uuid`)) {
-        stopifnot(is.character(`uuid`), length(`uuid`) == 1)
+                stopifnot(is.character(`uuid`), length(`uuid`) == 1)
         self$`uuid` <- `uuid`
       }
     },
     toJSON = function() {
       ActivityObject <- list()
       if (!is.null(self$`uuid`)) {
-        ActivityObject[['uuid']] <- self$`uuid`
+        ActivityObject[['uuid']] <-
+                self$`uuid`
       }
 
       ActivityObject
@@ -35,20 +36,25 @@ Activity <- R6::R6Class(
     fromJSON = function(ActivityJson) {
       ActivityObject <- jsonlite::fromJSON(ActivityJson)
       if (!is.null(ActivityObject$`uuid`)) {
-        self$`uuid` <- ActivityObject$`uuid`
+                self$`uuid` <- ActivityObject$`uuid`
       }
     },
     toJSONString = function() {
-       sprintf(
+       outstring <- sprintf(
         '{
-           "uuid": %s
+           "uuid":
+                      
+                      "%s"
+                  
+              
         }',
-        self$`uuid`
+                self$`uuid`
       )
+      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(ActivityJson) {
       ActivityObject <- jsonlite::fromJSON(ActivityJson)
-      self$`uuid` <- ActivityObject$`uuid`
+              self$`uuid` <- ActivityObject$`uuid`
     }
   )
 )

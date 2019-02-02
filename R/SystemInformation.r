@@ -26,35 +26,39 @@ SystemInformation <- R6::R6Class(
     `message` = NULL,
     initialize = function(`uuid`, `language`, `header`, `message`){
       if (!missing(`uuid`)) {
-        stopifnot(is.character(`uuid`), length(`uuid`) == 1)
+                stopifnot(is.character(`uuid`), length(`uuid`) == 1)
         self$`uuid` <- `uuid`
       }
       if (!missing(`language`)) {
-        stopifnot(is.character(`language`), length(`language`) == 1)
+                stopifnot(is.character(`language`), length(`language`) == 1)
         self$`language` <- `language`
       }
       if (!missing(`header`)) {
-        stopifnot(is.character(`header`), length(`header`) == 1)
+                stopifnot(is.character(`header`), length(`header`) == 1)
         self$`header` <- `header`
       }
       if (!missing(`message`)) {
-        stopifnot(is.character(`message`), length(`message`) == 1)
+                stopifnot(is.character(`message`), length(`message`) == 1)
         self$`message` <- `message`
       }
     },
     toJSON = function() {
       SystemInformationObject <- list()
       if (!is.null(self$`uuid`)) {
-        SystemInformationObject[['uuid']] <- self$`uuid`
+        SystemInformationObject[['uuid']] <-
+                self$`uuid`
       }
       if (!is.null(self$`language`)) {
-        SystemInformationObject[['language']] <- self$`language`
+        SystemInformationObject[['language']] <-
+                self$`language`
       }
       if (!is.null(self$`header`)) {
-        SystemInformationObject[['header']] <- self$`header`
+        SystemInformationObject[['header']] <-
+                self$`header`
       }
       if (!is.null(self$`message`)) {
-        SystemInformationObject[['message']] <- self$`message`
+        SystemInformationObject[['message']] <-
+                self$`message`
       }
 
       SystemInformationObject
@@ -62,38 +66,55 @@ SystemInformation <- R6::R6Class(
     fromJSON = function(SystemInformationJson) {
       SystemInformationObject <- jsonlite::fromJSON(SystemInformationJson)
       if (!is.null(SystemInformationObject$`uuid`)) {
-        self$`uuid` <- SystemInformationObject$`uuid`
+                self$`uuid` <- SystemInformationObject$`uuid`
       }
       if (!is.null(SystemInformationObject$`language`)) {
-        self$`language` <- SystemInformationObject$`language`
+                self$`language` <- SystemInformationObject$`language`
       }
       if (!is.null(SystemInformationObject$`header`)) {
-        self$`header` <- SystemInformationObject$`header`
+                self$`header` <- SystemInformationObject$`header`
       }
       if (!is.null(SystemInformationObject$`message`)) {
-        self$`message` <- SystemInformationObject$`message`
+                self$`message` <- SystemInformationObject$`message`
       }
     },
     toJSONString = function() {
-       sprintf(
+       outstring <- sprintf(
         '{
-           "uuid": %s,
-           "language": %s,
-           "header": %s,
-           "message": %s
+           "uuid":
+                      
+                      "%s"
+                  
+              ,
+           "language":
+                      
+                      "%s"
+                  
+              ,
+           "header":
+                      
+                      "%s"
+                  
+              ,
+           "message":
+                      
+                      "%s"
+                  
+              
         }',
-        self$`uuid`,
-        self$`language`,
-        self$`header`,
-        self$`message`
+                self$`uuid`,
+                self$`language`,
+                self$`header`,
+                self$`message`
       )
+      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(SystemInformationJson) {
       SystemInformationObject <- jsonlite::fromJSON(SystemInformationJson)
-      self$`uuid` <- SystemInformationObject$`uuid`
-      self$`language` <- SystemInformationObject$`language`
-      self$`header` <- SystemInformationObject$`header`
-      self$`message` <- SystemInformationObject$`message`
+              self$`uuid` <- SystemInformationObject$`uuid`
+              self$`language` <- SystemInformationObject$`language`
+              self$`header` <- SystemInformationObject$`header`
+              self$`message` <- SystemInformationObject$`message`
     }
   )
 )

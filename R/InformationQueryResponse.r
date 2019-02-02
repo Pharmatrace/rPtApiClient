@@ -26,35 +26,39 @@ InformationQueryResponse <- R6::R6Class(
     `transaction_channel` = NULL,
     initialize = function(`timestamp`, `tx_uid`, `terms_id`, `transaction_channel`){
       if (!missing(`timestamp`)) {
-        stopifnot(is.numeric(`timestamp`), length(`timestamp`) == 1)
+                stopifnot(is.numeric(`timestamp`), length(`timestamp`) == 1)
         self$`timestamp` <- `timestamp`
       }
       if (!missing(`tx_uid`)) {
-        stopifnot(is.character(`tx_uid`), length(`tx_uid`) == 1)
+                stopifnot(is.character(`tx_uid`), length(`tx_uid`) == 1)
         self$`tx_uid` <- `tx_uid`
       }
       if (!missing(`terms_id`)) {
-        stopifnot(is.character(`terms_id`), length(`terms_id`) == 1)
+                stopifnot(is.character(`terms_id`), length(`terms_id`) == 1)
         self$`terms_id` <- `terms_id`
       }
       if (!missing(`transaction_channel`)) {
-        stopifnot(is.character(`transaction_channel`), length(`transaction_channel`) == 1)
+                stopifnot(is.character(`transaction_channel`), length(`transaction_channel`) == 1)
         self$`transaction_channel` <- `transaction_channel`
       }
     },
     toJSON = function() {
       InformationQueryResponseObject <- list()
       if (!is.null(self$`timestamp`)) {
-        InformationQueryResponseObject[['timestamp']] <- self$`timestamp`
+        InformationQueryResponseObject[['timestamp']] <-
+                self$`timestamp`
       }
       if (!is.null(self$`tx_uid`)) {
-        InformationQueryResponseObject[['tx_uid']] <- self$`tx_uid`
+        InformationQueryResponseObject[['tx_uid']] <-
+                self$`tx_uid`
       }
       if (!is.null(self$`terms_id`)) {
-        InformationQueryResponseObject[['terms_id']] <- self$`terms_id`
+        InformationQueryResponseObject[['terms_id']] <-
+                self$`terms_id`
       }
       if (!is.null(self$`transaction_channel`)) {
-        InformationQueryResponseObject[['transaction_channel']] <- self$`transaction_channel`
+        InformationQueryResponseObject[['transaction_channel']] <-
+                self$`transaction_channel`
       }
 
       InformationQueryResponseObject
@@ -62,38 +66,55 @@ InformationQueryResponse <- R6::R6Class(
     fromJSON = function(InformationQueryResponseJson) {
       InformationQueryResponseObject <- jsonlite::fromJSON(InformationQueryResponseJson)
       if (!is.null(InformationQueryResponseObject$`timestamp`)) {
-        self$`timestamp` <- InformationQueryResponseObject$`timestamp`
+                self$`timestamp` <- InformationQueryResponseObject$`timestamp`
       }
       if (!is.null(InformationQueryResponseObject$`tx_uid`)) {
-        self$`tx_uid` <- InformationQueryResponseObject$`tx_uid`
+                self$`tx_uid` <- InformationQueryResponseObject$`tx_uid`
       }
       if (!is.null(InformationQueryResponseObject$`terms_id`)) {
-        self$`terms_id` <- InformationQueryResponseObject$`terms_id`
+                self$`terms_id` <- InformationQueryResponseObject$`terms_id`
       }
       if (!is.null(InformationQueryResponseObject$`transaction_channel`)) {
-        self$`transaction_channel` <- InformationQueryResponseObject$`transaction_channel`
+                self$`transaction_channel` <- InformationQueryResponseObject$`transaction_channel`
       }
     },
     toJSONString = function() {
-       sprintf(
+       outstring <- sprintf(
         '{
-           "timestamp": %d,
-           "tx_uid": %s,
-           "terms_id": %s,
-           "transaction_channel": %s
+           "timestamp":
+                      %d
+                      
+                  
+              ,
+           "tx_uid":
+                      
+                      "%s"
+                  
+              ,
+           "terms_id":
+                      
+                      "%s"
+                  
+              ,
+           "transaction_channel":
+                      
+                      "%s"
+                  
+              
         }',
-        self$`timestamp`,
-        self$`tx_uid`,
-        self$`terms_id`,
-        self$`transaction_channel`
+                self$`timestamp`,
+                self$`tx_uid`,
+                self$`terms_id`,
+                self$`transaction_channel`
       )
+      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(InformationQueryResponseJson) {
       InformationQueryResponseObject <- jsonlite::fromJSON(InformationQueryResponseJson)
-      self$`timestamp` <- InformationQueryResponseObject$`timestamp`
-      self$`tx_uid` <- InformationQueryResponseObject$`tx_uid`
-      self$`terms_id` <- InformationQueryResponseObject$`terms_id`
-      self$`transaction_channel` <- InformationQueryResponseObject$`transaction_channel`
+              self$`timestamp` <- InformationQueryResponseObject$`timestamp`
+              self$`tx_uid` <- InformationQueryResponseObject$`tx_uid`
+              self$`terms_id` <- InformationQueryResponseObject$`terms_id`
+              self$`transaction_channel` <- InformationQueryResponseObject$`transaction_channel`
     }
   )
 )

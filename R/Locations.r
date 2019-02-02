@@ -26,36 +26,40 @@ Locations <- R6::R6Class(
     `history` = NULL,
     initialize = function(`offset`, `limit`, `count`, `history`){
       if (!missing(`offset`)) {
-        stopifnot(is.numeric(`offset`), length(`offset`) == 1)
+                stopifnot(is.numeric(`offset`), length(`offset`) == 1)
         self$`offset` <- `offset`
       }
       if (!missing(`limit`)) {
-        stopifnot(is.numeric(`limit`), length(`limit`) == 1)
+                stopifnot(is.numeric(`limit`), length(`limit`) == 1)
         self$`limit` <- `limit`
       }
       if (!missing(`count`)) {
-        stopifnot(is.numeric(`count`), length(`count`) == 1)
+                stopifnot(is.numeric(`count`), length(`count`) == 1)
         self$`count` <- `count`
       }
       if (!missing(`history`)) {
-        stopifnot(is.list(`history`), length(`history`) != 0)
-        lapply(`history`, function(x) stopifnot(R6::is.R6(x)))
+                stopifnot(is.vector(`history`), length(`history`) != 0)
+                sapply(`history`, function(x) stopifnot(R6::is.R6(x)))
         self$`history` <- `history`
       }
     },
     toJSON = function() {
       LocationsObject <- list()
       if (!is.null(self$`offset`)) {
-        LocationsObject[['offset']] <- self$`offset`
+        LocationsObject[['offset']] <-
+                self$`offset`
       }
       if (!is.null(self$`limit`)) {
-        LocationsObject[['limit']] <- self$`limit`
+        LocationsObject[['limit']] <-
+                self$`limit`
       }
       if (!is.null(self$`count`)) {
-        LocationsObject[['count']] <- self$`count`
+        LocationsObject[['count']] <-
+                self$`count`
       }
       if (!is.null(self$`history`)) {
-        LocationsObject[['history']] <- lapply(self$`history`, function(x) x$toJSON())
+        LocationsObject[['history']] <-
+                sapply(self$`history`, function(x) x$toJSON())
       }
 
       LocationsObject
@@ -63,42 +67,57 @@ Locations <- R6::R6Class(
     fromJSON = function(LocationsJson) {
       LocationsObject <- jsonlite::fromJSON(LocationsJson)
       if (!is.null(LocationsObject$`offset`)) {
-        self$`offset` <- LocationsObject$`offset`
+                self$`offset` <- LocationsObject$`offset`
       }
       if (!is.null(LocationsObject$`limit`)) {
-        self$`limit` <- LocationsObject$`limit`
+                self$`limit` <- LocationsObject$`limit`
       }
       if (!is.null(LocationsObject$`count`)) {
-        self$`count` <- LocationsObject$`count`
+                self$`count` <- LocationsObject$`count`
       }
       if (!is.null(LocationsObject$`history`)) {
-        self$`history` <- lapply(LocationsObject$`history`, function(x) {
-          historyObject <- Location$new()
-          historyObject$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
-          historyObject
-        })
+                self$`history` <- sapply(LocationsObject$`history`, function(x) {
+                  historyObject <- Location$new()
+                  historyObject$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
+                  historyObject
+            })
       }
     },
     toJSONString = function() {
-       sprintf(
+       outstring <- sprintf(
         '{
-           "offset": %d,
-           "limit": %d,
-           "count": %d,
-           "history": [%s]
+           "offset":
+                      %d
+                      
+                  
+              ,
+           "limit":
+                      %d
+                      
+                  
+              ,
+           "count":
+                      %d
+                      
+                  
+              ,
+           "history":
+                  ["%s"]
+              
         }',
-        self$`offset`,
-        self$`limit`,
-        self$`count`,
-        lapply(self$`history`, function(x) paste(x$toJSON(), sep=","))
+                self$`offset`,
+                self$`limit`,
+                self$`count`,
+                paste0(sapply(self$`history`, function(x) x$toJSON()), collapse='","')
       )
+      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(LocationsJson) {
       LocationsObject <- jsonlite::fromJSON(LocationsJson)
-      self$`offset` <- LocationsObject$`offset`
-      self$`limit` <- LocationsObject$`limit`
-      self$`count` <- LocationsObject$`count`
-      self$`history` <- lapply(LocationsObject$`history`, function(x) Location$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
+              self$`offset` <- LocationsObject$`offset`
+              self$`limit` <- LocationsObject$`limit`
+              self$`count` <- LocationsObject$`count`
+              self$`history` <- sapply(LocationsObject$`history`, function(x) Location$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
     }
   )
 )

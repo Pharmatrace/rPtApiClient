@@ -28,42 +28,47 @@ Stakeholder <- R6::R6Class(
     `wallet_id` = NULL,
     initialize = function(`trade_id`, `trade_id_type`, `display_name`, `stakeholder_role`, `wallet_id`){
       if (!missing(`trade_id`)) {
-        stopifnot(is.character(`trade_id`), length(`trade_id`) == 1)
+                stopifnot(is.character(`trade_id`), length(`trade_id`) == 1)
         self$`trade_id` <- `trade_id`
       }
       if (!missing(`trade_id_type`)) {
-        stopifnot(is.character(`trade_id_type`), length(`trade_id_type`) == 1)
+                stopifnot(is.character(`trade_id_type`), length(`trade_id_type`) == 1)
         self$`trade_id_type` <- `trade_id_type`
       }
       if (!missing(`display_name`)) {
-        stopifnot(is.character(`display_name`), length(`display_name`) == 1)
+                stopifnot(is.character(`display_name`), length(`display_name`) == 1)
         self$`display_name` <- `display_name`
       }
       if (!missing(`stakeholder_role`)) {
-        stopifnot(is.character(`stakeholder_role`), length(`stakeholder_role`) == 1)
+                stopifnot(is.character(`stakeholder_role`), length(`stakeholder_role`) == 1)
         self$`stakeholder_role` <- `stakeholder_role`
       }
       if (!missing(`wallet_id`)) {
-        stopifnot(is.character(`wallet_id`), length(`wallet_id`) == 1)
+                stopifnot(is.character(`wallet_id`), length(`wallet_id`) == 1)
         self$`wallet_id` <- `wallet_id`
       }
     },
     toJSON = function() {
       StakeholderObject <- list()
       if (!is.null(self$`trade_id`)) {
-        StakeholderObject[['trade_id']] <- self$`trade_id`
+        StakeholderObject[['trade_id']] <-
+                self$`trade_id`
       }
       if (!is.null(self$`trade_id_type`)) {
-        StakeholderObject[['trade_id_type']] <- self$`trade_id_type`
+        StakeholderObject[['trade_id_type']] <-
+                self$`trade_id_type`
       }
       if (!is.null(self$`display_name`)) {
-        StakeholderObject[['display_name']] <- self$`display_name`
+        StakeholderObject[['display_name']] <-
+                self$`display_name`
       }
       if (!is.null(self$`stakeholder_role`)) {
-        StakeholderObject[['stakeholder_role']] <- self$`stakeholder_role`
+        StakeholderObject[['stakeholder_role']] <-
+                self$`stakeholder_role`
       }
       if (!is.null(self$`wallet_id`)) {
-        StakeholderObject[['wallet_id']] <- self$`wallet_id`
+        StakeholderObject[['wallet_id']] <-
+                self$`wallet_id`
       }
 
       StakeholderObject
@@ -71,44 +76,65 @@ Stakeholder <- R6::R6Class(
     fromJSON = function(StakeholderJson) {
       StakeholderObject <- jsonlite::fromJSON(StakeholderJson)
       if (!is.null(StakeholderObject$`trade_id`)) {
-        self$`trade_id` <- StakeholderObject$`trade_id`
+                self$`trade_id` <- StakeholderObject$`trade_id`
       }
       if (!is.null(StakeholderObject$`trade_id_type`)) {
-        self$`trade_id_type` <- StakeholderObject$`trade_id_type`
+                self$`trade_id_type` <- StakeholderObject$`trade_id_type`
       }
       if (!is.null(StakeholderObject$`display_name`)) {
-        self$`display_name` <- StakeholderObject$`display_name`
+                self$`display_name` <- StakeholderObject$`display_name`
       }
       if (!is.null(StakeholderObject$`stakeholder_role`)) {
-        self$`stakeholder_role` <- StakeholderObject$`stakeholder_role`
+                self$`stakeholder_role` <- StakeholderObject$`stakeholder_role`
       }
       if (!is.null(StakeholderObject$`wallet_id`)) {
-        self$`wallet_id` <- StakeholderObject$`wallet_id`
+                self$`wallet_id` <- StakeholderObject$`wallet_id`
       }
     },
     toJSONString = function() {
-       sprintf(
+       outstring <- sprintf(
         '{
-           "trade_id": %s,
-           "trade_id_type": %s,
-           "display_name": %s,
-           "stakeholder_role": %s,
-           "wallet_id": %s
+           "trade_id":
+                      
+                      "%s"
+                  
+              ,
+           "trade_id_type":
+                      
+                      "%s"
+                  
+              ,
+           "display_name":
+                      
+                      "%s"
+                  
+              ,
+           "stakeholder_role":
+                      
+                      "%s"
+                  
+              ,
+           "wallet_id":
+                      
+                      "%s"
+                  
+              
         }',
-        self$`trade_id`,
-        self$`trade_id_type`,
-        self$`display_name`,
-        self$`stakeholder_role`,
-        self$`wallet_id`
+                self$`trade_id`,
+                self$`trade_id_type`,
+                self$`display_name`,
+                self$`stakeholder_role`,
+                self$`wallet_id`
       )
+      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(StakeholderJson) {
       StakeholderObject <- jsonlite::fromJSON(StakeholderJson)
-      self$`trade_id` <- StakeholderObject$`trade_id`
-      self$`trade_id_type` <- StakeholderObject$`trade_id_type`
-      self$`display_name` <- StakeholderObject$`display_name`
-      self$`stakeholder_role` <- StakeholderObject$`stakeholder_role`
-      self$`wallet_id` <- StakeholderObject$`wallet_id`
+              self$`trade_id` <- StakeholderObject$`trade_id`
+              self$`trade_id_type` <- StakeholderObject$`trade_id_type`
+              self$`display_name` <- StakeholderObject$`display_name`
+              self$`stakeholder_role` <- StakeholderObject$`stakeholder_role`
+              self$`wallet_id` <- StakeholderObject$`wallet_id`
     }
   )
 )

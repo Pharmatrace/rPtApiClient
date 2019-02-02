@@ -26,36 +26,40 @@ Activities <- R6::R6Class(
     `history` = NULL,
     initialize = function(`offset`, `limit`, `count`, `history`){
       if (!missing(`offset`)) {
-        stopifnot(is.numeric(`offset`), length(`offset`) == 1)
+                stopifnot(is.numeric(`offset`), length(`offset`) == 1)
         self$`offset` <- `offset`
       }
       if (!missing(`limit`)) {
-        stopifnot(is.numeric(`limit`), length(`limit`) == 1)
+                stopifnot(is.numeric(`limit`), length(`limit`) == 1)
         self$`limit` <- `limit`
       }
       if (!missing(`count`)) {
-        stopifnot(is.numeric(`count`), length(`count`) == 1)
+                stopifnot(is.numeric(`count`), length(`count`) == 1)
         self$`count` <- `count`
       }
       if (!missing(`history`)) {
-        stopifnot(is.list(`history`), length(`history`) != 0)
-        lapply(`history`, function(x) stopifnot(R6::is.R6(x)))
+                stopifnot(is.vector(`history`), length(`history`) != 0)
+                sapply(`history`, function(x) stopifnot(R6::is.R6(x)))
         self$`history` <- `history`
       }
     },
     toJSON = function() {
       ActivitiesObject <- list()
       if (!is.null(self$`offset`)) {
-        ActivitiesObject[['offset']] <- self$`offset`
+        ActivitiesObject[['offset']] <-
+                self$`offset`
       }
       if (!is.null(self$`limit`)) {
-        ActivitiesObject[['limit']] <- self$`limit`
+        ActivitiesObject[['limit']] <-
+                self$`limit`
       }
       if (!is.null(self$`count`)) {
-        ActivitiesObject[['count']] <- self$`count`
+        ActivitiesObject[['count']] <-
+                self$`count`
       }
       if (!is.null(self$`history`)) {
-        ActivitiesObject[['history']] <- lapply(self$`history`, function(x) x$toJSON())
+        ActivitiesObject[['history']] <-
+                sapply(self$`history`, function(x) x$toJSON())
       }
 
       ActivitiesObject
@@ -63,42 +67,57 @@ Activities <- R6::R6Class(
     fromJSON = function(ActivitiesJson) {
       ActivitiesObject <- jsonlite::fromJSON(ActivitiesJson)
       if (!is.null(ActivitiesObject$`offset`)) {
-        self$`offset` <- ActivitiesObject$`offset`
+                self$`offset` <- ActivitiesObject$`offset`
       }
       if (!is.null(ActivitiesObject$`limit`)) {
-        self$`limit` <- ActivitiesObject$`limit`
+                self$`limit` <- ActivitiesObject$`limit`
       }
       if (!is.null(ActivitiesObject$`count`)) {
-        self$`count` <- ActivitiesObject$`count`
+                self$`count` <- ActivitiesObject$`count`
       }
       if (!is.null(ActivitiesObject$`history`)) {
-        self$`history` <- lapply(ActivitiesObject$`history`, function(x) {
-          historyObject <- Activity$new()
-          historyObject$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
-          historyObject
-        })
+                self$`history` <- sapply(ActivitiesObject$`history`, function(x) {
+                  historyObject <- Activity$new()
+                  historyObject$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
+                  historyObject
+            })
       }
     },
     toJSONString = function() {
-       sprintf(
+       outstring <- sprintf(
         '{
-           "offset": %d,
-           "limit": %d,
-           "count": %d,
-           "history": [%s]
+           "offset":
+                      %d
+                      
+                  
+              ,
+           "limit":
+                      %d
+                      
+                  
+              ,
+           "count":
+                      %d
+                      
+                  
+              ,
+           "history":
+                  ["%s"]
+              
         }',
-        self$`offset`,
-        self$`limit`,
-        self$`count`,
-        lapply(self$`history`, function(x) paste(x$toJSON(), sep=","))
+                self$`offset`,
+                self$`limit`,
+                self$`count`,
+                paste0(sapply(self$`history`, function(x) x$toJSON()), collapse='","')
       )
+      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(ActivitiesJson) {
       ActivitiesObject <- jsonlite::fromJSON(ActivitiesJson)
-      self$`offset` <- ActivitiesObject$`offset`
-      self$`limit` <- ActivitiesObject$`limit`
-      self$`count` <- ActivitiesObject$`count`
-      self$`history` <- lapply(ActivitiesObject$`history`, function(x) Activity$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
+              self$`offset` <- ActivitiesObject$`offset`
+              self$`limit` <- ActivitiesObject$`limit`
+              self$`count` <- ActivitiesObject$`count`
+              self$`history` <- sapply(ActivitiesObject$`history`, function(x) Activity$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
     }
   )
 )

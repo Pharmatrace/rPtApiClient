@@ -26,36 +26,40 @@ SystemInformations <- R6::R6Class(
     `history` = NULL,
     initialize = function(`offset`, `limit`, `count`, `history`){
       if (!missing(`offset`)) {
-        stopifnot(is.numeric(`offset`), length(`offset`) == 1)
+                stopifnot(is.numeric(`offset`), length(`offset`) == 1)
         self$`offset` <- `offset`
       }
       if (!missing(`limit`)) {
-        stopifnot(is.numeric(`limit`), length(`limit`) == 1)
+                stopifnot(is.numeric(`limit`), length(`limit`) == 1)
         self$`limit` <- `limit`
       }
       if (!missing(`count`)) {
-        stopifnot(is.numeric(`count`), length(`count`) == 1)
+                stopifnot(is.numeric(`count`), length(`count`) == 1)
         self$`count` <- `count`
       }
       if (!missing(`history`)) {
-        stopifnot(is.list(`history`), length(`history`) != 0)
-        lapply(`history`, function(x) stopifnot(R6::is.R6(x)))
+                stopifnot(is.vector(`history`), length(`history`) != 0)
+                sapply(`history`, function(x) stopifnot(R6::is.R6(x)))
         self$`history` <- `history`
       }
     },
     toJSON = function() {
       SystemInformationsObject <- list()
       if (!is.null(self$`offset`)) {
-        SystemInformationsObject[['offset']] <- self$`offset`
+        SystemInformationsObject[['offset']] <-
+                self$`offset`
       }
       if (!is.null(self$`limit`)) {
-        SystemInformationsObject[['limit']] <- self$`limit`
+        SystemInformationsObject[['limit']] <-
+                self$`limit`
       }
       if (!is.null(self$`count`)) {
-        SystemInformationsObject[['count']] <- self$`count`
+        SystemInformationsObject[['count']] <-
+                self$`count`
       }
       if (!is.null(self$`history`)) {
-        SystemInformationsObject[['history']] <- lapply(self$`history`, function(x) x$toJSON())
+        SystemInformationsObject[['history']] <-
+                sapply(self$`history`, function(x) x$toJSON())
       }
 
       SystemInformationsObject
@@ -63,42 +67,57 @@ SystemInformations <- R6::R6Class(
     fromJSON = function(SystemInformationsJson) {
       SystemInformationsObject <- jsonlite::fromJSON(SystemInformationsJson)
       if (!is.null(SystemInformationsObject$`offset`)) {
-        self$`offset` <- SystemInformationsObject$`offset`
+                self$`offset` <- SystemInformationsObject$`offset`
       }
       if (!is.null(SystemInformationsObject$`limit`)) {
-        self$`limit` <- SystemInformationsObject$`limit`
+                self$`limit` <- SystemInformationsObject$`limit`
       }
       if (!is.null(SystemInformationsObject$`count`)) {
-        self$`count` <- SystemInformationsObject$`count`
+                self$`count` <- SystemInformationsObject$`count`
       }
       if (!is.null(SystemInformationsObject$`history`)) {
-        self$`history` <- lapply(SystemInformationsObject$`history`, function(x) {
-          historyObject <- SystemInformation$new()
-          historyObject$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
-          historyObject
-        })
+                self$`history` <- sapply(SystemInformationsObject$`history`, function(x) {
+                  historyObject <- SystemInformation$new()
+                  historyObject$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
+                  historyObject
+            })
       }
     },
     toJSONString = function() {
-       sprintf(
+       outstring <- sprintf(
         '{
-           "offset": %d,
-           "limit": %d,
-           "count": %d,
-           "history": [%s]
+           "offset":
+                      %d
+                      
+                  
+              ,
+           "limit":
+                      %d
+                      
+                  
+              ,
+           "count":
+                      %d
+                      
+                  
+              ,
+           "history":
+                  ["%s"]
+              
         }',
-        self$`offset`,
-        self$`limit`,
-        self$`count`,
-        lapply(self$`history`, function(x) paste(x$toJSON(), sep=","))
+                self$`offset`,
+                self$`limit`,
+                self$`count`,
+                paste0(sapply(self$`history`, function(x) x$toJSON()), collapse='","')
       )
+      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(SystemInformationsJson) {
       SystemInformationsObject <- jsonlite::fromJSON(SystemInformationsJson)
-      self$`offset` <- SystemInformationsObject$`offset`
-      self$`limit` <- SystemInformationsObject$`limit`
-      self$`count` <- SystemInformationsObject$`count`
-      self$`history` <- lapply(SystemInformationsObject$`history`, function(x) SystemInformation$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
+              self$`offset` <- SystemInformationsObject$`offset`
+              self$`limit` <- SystemInformationsObject$`limit`
+              self$`count` <- SystemInformationsObject$`count`
+              self$`history` <- sapply(SystemInformationsObject$`history`, function(x) SystemInformation$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
     }
   )
 )
